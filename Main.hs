@@ -1,3 +1,5 @@
+module Main where
+
 import Data.List
 import System.IO
 
@@ -128,4 +130,118 @@ pow3List = [3 ^ n | n <- [1 .. 10]]
 
 pow3ListDiv9 = [3 ^ n | n <- [1 .. 10], 3 ^ n `mod` 9 == 0]
 
-multTable = [[x * y | y <- [1..3]] | x <- [1..3]]
+multTable = [[x * y | y <- [1 .. 3]] | x <- [1 .. 3]]
+
+-- --- TUPLES ---
+
+aTuple = ('a', 42, "asdfasdf")
+
+bob = ("Bob", 44)
+
+bobName = fst bob
+
+bobAge = snd bob
+
+names = ["Bob", "Hoge", "Fuga"]
+
+addrs = ["123-123", "312-321", "423-234"]
+
+nameNAddrs = zip names addrs
+
+(_, hogeAddr) = nameNAddrs !! 1
+
+-- --- FUNCTIONS ---
+
+main :: IO ()
+main = do
+  putStrLn "Type your name:"
+
+  name <- getLine
+
+  putStrLn $ "Hello" <> name
+
+addMe :: Num a => a -> a -> a
+addMe x y = x + y
+
+addTuples :: (Num a, Num b) => (a, b) -> (a, b) -> (a, b)
+addTuples (x, y) (x2, y2) = (x + x2, y + y2)
+
+inKanji :: Int -> String
+inKanji 1 = "一"
+inKanji 2 = "二"
+inKanji 3 = "三"
+inKanji x = "他"
+
+print3InKanji :: IO ()
+print3InKanji = putStrLn $ inKanji 3
+
+fact 0 = 1
+fact n = n * fact (n - 1)
+
+fact2 n = product [1 .. n]
+
+isHoge :: String -> Bool
+isHoge str
+  | str == "Hoge" = True
+  | otherwise = False
+
+fzbz :: Int -> String
+fzbz n
+  | n `mod` 3 == 0 && n `mod` 5 == 0 = "FzBz"
+  | n `mod` 3 == 0 = "Fz"
+  | n `mod` 5 == 0 = "Bz"
+  | otherwise = show n
+
+scoreAvgRating :: Double -> Double -> String
+scoreAvgRating counts shoots
+  | avg <= 0.5 = "meh"
+  | avg <= 0.6 = "ok"
+  | avg <= 0.7 = "great"
+  | otherwise = "godlike"
+  where
+    avg = counts / shoots
+
+getListItems :: [Int] -> String
+getListItems [] = "empty"
+getListItems [x] = show x
+getListItems (x : xs) = getListItems [x] <> " and " <> getListItems xs
+
+getFirstItem :: String -> String
+getFirstItem [] = "empty"
+getFirstItem inputs@(x : xs) = inputs <> "'s first letter is " <> [x]
+
+double :: Int -> Int
+double x = x * 2
+
+listDouble :: [Int]
+listDouble = map double [1 .. 10]
+
+-- re-invent map
+mulBy2 :: [Int] -> [Int]
+mulBy2 [] = []
+mulBy2 (x : xs) = double x : mulBy2 xs
+
+areStrEq :: [Char] -> [Char] -> Bool
+areStrEq [] [] = True
+areStrEq (x : xs) (y : ys) = x == y && areStrEq xs ys
+areStrEq _ _ = False
+
+aplNum3 :: (Int -> Int) -> Int
+aplNum3 fun = fun 3
+
+num3Double = aplNum3 double
+
+-- --- LAMBDA ---
+dblList = map (\x -> x * 2) [0 .. 10]
+
+dblEven x =
+  if even x
+    then x * 2
+    else x
+
+getCls :: Int -> String
+getCls age = case age of
+  5 -> "kindergarten"
+  6 -> "elem school"
+  _ -> "some place"
+
