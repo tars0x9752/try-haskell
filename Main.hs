@@ -218,10 +218,9 @@ listDouble = map double [1 .. 10]
 
 -- re-invent map
 mulBy2 :: [Int] -> [Int]
-mulBy2 [] = []
-mulBy2 (x : xs) = double x : mulBy2 xs
+mulBy2 xs = map double xs
 
-areStrEq :: [Char] -> [Char] -> Bool
+areStrEq :: String -> String -> Bool
 areStrEq [] [] = True
 areStrEq (x : xs) (y : ys) = x == y && areStrEq xs ys
 areStrEq _ _ = False
@@ -232,7 +231,7 @@ aplNum3 fun = fun 3
 num3Double = aplNum3 double
 
 -- --- LAMBDA ---
-dblList = map (\x -> x * 2) [0 .. 10]
+dblList = map (* 2) [0 .. 10]
 
 dblEven x =
   if even x
@@ -244,4 +243,33 @@ getCls age = case age of
   5 -> "kindergarten"
   6 -> "elem school"
   _ -> "some place"
+
+-- --- Algebraic Data Types ---
+
+data Block
+  = DirtBlock
+  | StoneBlock
+  | WoodBlock
+  deriving (Show)
+
+showBlock :: Block -> String
+showBlock b = "BlockName: " <> show b
+
+data Customer = Customer String String Int
+  deriving (Show)
+
+tomSmith :: Customer
+tomSmith = Customer "tom smith" "123 main" 123
+
+getAge :: Customer -> Int
+getAge (Customer _ _ age) = age
+
+data Shape = Circle Double | Rectangle Double Double
+  deriving (Show)
+
+area :: Shape -> Double
+area (Circle r) = pi * r ^ 2
+area (Rectangle x y) = x * y
+
+-- --- TypeClass ---
 
