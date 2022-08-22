@@ -273,3 +273,56 @@ area (Rectangle x y) = x * y
 
 -- --- TypeClass ---
 
+data Employee = Employee
+  { name :: String,
+    position :: String,
+    idNum :: Int
+  }
+  deriving (Eq, Show)
+
+samSmith = Employee {name = "Sam Smith", position = "mngr", idNum = 1}
+pamSmith = Employee {name = "Pam Smith", position = "mngr", idNum = 2}
+
+isSamPam = samSmith == pamSmith
+
+data ShirtSize = S | M | L
+
+instance Eq ShirtSize where
+  S == S = True 
+  M == M = True 
+  L == L = True
+  _ == _ = False 
+
+instance Show ShirtSize where
+  show S = "Small"
+  show M = "Medium"
+  show L = "Large"
+
+showSizeS = show S
+
+class MyEq a where
+  areEqual :: a -> a -> Bool 
+
+instance MyEq ShirtSize where
+  areEqual S S = True 
+  areEqual M M = True 
+  areEqual L L = True
+  areEqual _ _ = False 
+
+newSize = areEqual S S
+
+sayHello = do
+  putStrLn "what ur name"
+  name <- getLine
+  putStrLn  $ "Hello" <> name
+
+writeToFile = do
+  theFile <- openFile "test.txt" WriteMode
+  hPutStrLn theFile "Blahdsflaksdf"
+  hClose theFile
+
+readFromFile = do
+  theFile2 <- openFile "test.txt" ReadMode
+  contents <- hGetContents theFile2
+  putStr contents
+  hClose theFile2
